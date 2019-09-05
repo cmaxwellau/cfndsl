@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe CfnDsl::OutputDefinition do
+describe CfnDsl::RuleDefinition do
   let(:template) { CfnDsl::OrchestrationTemplate.new }
   let(:target) { File.read("#{File.dirname(__FILE__)}/fixtures/rule-assertion.json") }
   context '#Assert' do

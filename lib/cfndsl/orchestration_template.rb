@@ -201,8 +201,8 @@ module CfnDsl
       invalids = []
       output_refs = {}
       if @Outputs
-        @Outputs.each_key do |resource|
-          output_refs[resource.to_s] = @Outputs[resource].build_references({})
+        @Outputs.each_key do |output|
+          output_refs[output.to_s] = @Outputs[output].build_references({})
         end
         output_refs.each_key do |origin|
           output_refs[origin].each_key do |ref|
@@ -212,6 +212,22 @@ module CfnDsl
       end
       invalids
     end
+
+    def check_rule_refs
+      invalids = []
+      rule_refs = {}
+      if @Rules
+        @Rules.each_key do |rule|
+          rule_refs[rule.to_s] = @Rules[rule].build_references({})
+        end
+        rule_refs.each_key do |origin|
+          rule_refs[origin].each_key do |ref|
+            invalids.push "Invalid Reference: Rule #{origin} refers to #{ref}" unless valid_ref?(ref)
+          end
+        end
+      end
+      invalids
+    end    
 
     # rubocop:disable  Metrics/AbcSize, Metrics/PerceivedComplexity
     def validate_resources(errors = [])
