@@ -4,14 +4,6 @@
 module CfnDsl
   module_function
 
-  def disable_binding
-    @disable_binding = true
-  end
-
-  def disable_binding?
-    @disable_binding
-  end
-
   def disable_deep_merge
     @disable_deep_merge = true
   end

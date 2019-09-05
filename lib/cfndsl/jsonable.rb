@@ -25,7 +25,7 @@ module CfnDsl
 
     # Equivalent to the CloudFormation template built in function Fn::GetAtt
     def FnGetAtt(logical_resource, attribute)
-      Fn.new('GetAtt', [logical_resource, attribute])
+      Fn.new('GetAtt', [logical_resource, attribute], [logical_resource])
     end
 
     # Equivalent to the CloudFormation template built in function Fn::GetAZs
@@ -82,15 +82,20 @@ module CfnDsl
     end
 
     # Equivalent to the CloudFormation template built in function Fn::Sub
+    FN_SUB_SCANNER = /\$\{([^!}]*)\}/.freeze
+
     def FnSub(string, substitutions = nil)
       raise ArgumentError, 'The first argument passed to Fn::Sub must be a string' unless string.is_a? String
+
+      refs = string.scan(FN_SUB_SCANNER).map(&:first)
 
       if substitutions
         raise ArgumentError, 'The second argument passed to Fn::Sub must be a Hash' unless substitutions.is_a? Hash
 
-        Fn.new('Sub', [string, substitutions])
+        refs -= substitutions.keys
+        Fn.new('Sub', [string, substitutions], refs)
       else
-        Fn.new('Sub', string)
+        Fn.new('Sub', string, refs)
       end
     end
 
@@ -99,60 +104,11 @@ module CfnDsl
       Fn.new('ImportValue', value)
     end
 
-    # DEPRECATED
-    # Usage
-    #  FnFormat('This is a %0. It is 100%% %1', 'test', 'effective')
-    # or
-    #  FnFormat('This is a %{test}. It is 100%% %{effective}',
-    #            :test => 'test",
-    #            :effective => 'effective')
-    #
-    # These will each generate a call to Fn::Join that when
-    # evaluated will produce the string "This is a test. It is 100%
-    # effective."
-    #
-    # Think of this as %0, %1, etc in the format string being replaced by the
-    # corresponding arguments given after the format string. '%%' is replaced
-    # by the '%' character.
-    #
-    # The actual Fn::Join call corresponding to the above FnFormat call would be
-    # {"Fn::Join": ["",["This is a ","test",". It is 100","%"," ","effective"]]}
-    #
-    # If no arguments are given, or if a hash is given and the format
-    # variable name does not exist in the hash, it is used as a Ref
-    # to an existing resource or parameter.
-    #
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-    def FnFormat(string, *arguments)
-      warn '`FnFormat` is deprecated and will be removed a future release. Use `FnSub` instead'
-      array = []
-
-      if arguments.empty? || (arguments.length == 1 && arguments[0].instance_of?(Hash))
-        hash = arguments[0] || {}
-        string.scan(/(.*?)(?:%(%|\{([\w:]+)\})|\z)/m) do |x, y, z|
-          array.push x if x && !x.empty?
-
-          next unless y
-
-          array.push(y == '%' ? '%' : (hash[z] || hash[z.to_sym] || Ref(z)))
-        end
-      else
-        string.scan(/(.*?)(?:%(%|\d+)|\z)/m) do |x, y|
-          array.push x if x && !x.empty?
-
-          next unless y
-
-          array.push(y == '%' ? '%' : arguments[y.to_i])
-        end
-      end
-      Fn.new('Join', ['', array])
-    end
-
     # Equivalent to the CloudFormation template built in function Fn::Cidr
     def FnCidr(ipblock, count, sizemask)
       Fn.new('Cidr', [ipblock, count, sizemask])
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    # rubocop:enable
   end
 
   # This is the base class for just about everything useful in the
@@ -198,6 +154,34 @@ module CfnDsl
       as_json.to_json(*args)
     end
 
+    # rubocop:disable Metrics/PerceivedComplexity
+    def visit_json(path = '/', obj: self, visited: Set.new, &block)
+      return enum_for(:visit_json, path) unless block_given?
+
+      raise Error, "Cyclic reference at #{path}" unless visited.add?(obj)
+
+      value = obj.respond_to?(:as_json) ? obj.as_json : obj
+
+      if value.respond_to?(:visit_json) && !value.equal?(obj)
+        value.visit_json(path, visited: visited, &block)
+      elsif value.respond_to?(:each_pair)
+        # Maps
+        yield path, obj
+        value.each_pair do |key, entry|
+          visit_json("#{path}/#{key}", obj: entry, visited: visited, &block)
+        end
+      elsif value.respond_to?(:each)
+        # Lists
+        yield path, obj
+        value.each.with_index do |item, i|
+          visit_json("#{path}[#{i}]", obj: item, visited: visited, &block)
+        end
+      else
+        yield path.to_s, obj
+      end
+    end
+    # rubocop:enable Metrics/PerceivedComplexity
+
     def ref_children
       instance_variables.map { |var| instance_variable_get(var) }
     end
@@ -225,12 +209,18 @@ module CfnDsl
       as_json.to_json(*args)
     end
 
+    # This method is apparently never called
     def references
       @_refs
     end
 
     def ref_children
       [@argument]
+    end
+
+    # New method for scanning for references
+    def refs
+      @_refs.map(&:to_s)
     end
   end
 
@@ -242,6 +232,10 @@ module CfnDsl
 
     def all_refs
       [@Ref]
+    end
+
+    def refs
+      [@Ref.to_s]
     end
   end
 end

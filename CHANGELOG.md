@@ -201,52 +201,6 @@
 
 **Fixed bugs:**
 
-- Rubocop fixes [\#351](https://github.com/cfndsl/cfndsl/pull/351) ([kornypoet](https://github.com/kornypoet))
-
-**Closed issues:**
-
-- How to embed parameter into string? [\#341](https://github.com/cfndsl/cfndsl/issues/341)
-
-**Merged pull requests:**
-
-- cfndsl fix list type subproperties for LaunchSpecifications [\#353](https://github.com/cfndsl/cfndsl/pull/353) ([lwoggardner](https://github.com/lwoggardner))
-- Update the embedded resource specification file to version 1.9.1 [\#346](https://github.com/cfndsl/cfndsl/pull/346) ([bobziuchkovski](https://github.com/bobziuchkovski))
-
-## [v0.15.3](https://github.com/cfndsl/cfndsl/tree/v0.15.3) (2017-09-05)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.2...v0.15.3)
-
-**Implemented enhancements:**
-
-- list cfndsl equivalents [\#336](https://github.com/cfndsl/cfndsl/issues/336)
-
-**Closed issues:**
-
-- backtrace shown when incorrect resource name is passed to -g [\#338](https://github.com/cfndsl/cfndsl/issues/338)
-- Request to include support for AWS::Logs::SubscriptionFilter [\#335](https://github.com/cfndsl/cfndsl/issues/335)
-- Support for Lambda backed custom resources with shorthand [\#315](https://github.com/cfndsl/cfndsl/issues/315)
-- Merging cfnlego, cfn2dsl into cfndsl [\#272](https://github.com/cfndsl/cfndsl/issues/272)
-
-**Merged pull requests:**
-
-- Fix parameter parsing when its value contains equal symbol [\#340](https://github.com/cfndsl/cfndsl/pull/340) ([ans0600](https://github.com/ans0600))
-
-## [v0.15.2](https://github.com/cfndsl/cfndsl/tree/v0.15.2) (2017-06-20)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.1...v0.15.2)
-
-**Implemented enhancements:**
-
-- YAML output format in RakeTask [\#300](https://github.com/cfndsl/cfndsl/issues/300)
-
-**Merged pull requests:**
-
-- add outformat for rake task [\#334](https://github.com/cfndsl/cfndsl/pull/334) ([gergnz](https://github.com/gergnz))
-- merge ruby version fix into 1.0.0.pre branch [\#333](https://github.com/cfndsl/cfndsl/pull/333) ([gergnz](https://github.com/gergnz))
-
-## [v0.15.1](https://github.com/cfndsl/cfndsl/tree/v0.15.1) (2017-06-19)
-[Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.15.0...v0.15.1)
-
-**Fixed bugs:**
-
 - Ruby 2.1.0 is minimum required version, but we don't discuss this anywhere [\#331](https://github.com/cfndsl/cfndsl/issues/331)
 - specify ruby v 2.1 as minimum [\#332](https://github.com/cfndsl/cfndsl/pull/332) ([gergnz](https://github.com/gergnz))
 
@@ -255,7 +209,10 @@
 
 **Closed issues:**
 
-- Please add support for multiple input files with deep merge [\#327](https://github.com/cfndsl/cfndsl/issues/327)
+- backtrace shown when incorrect resource name is passed to -g [\#338](https://github.com/cfndsl/cfndsl/issues/338)
+- Request to include support for AWS::Logs::SubscriptionFilter [\#335](https://github.com/cfndsl/cfndsl/issues/335)
+- Support for Lambda backed custom resources with shorthand [\#315](https://github.com/cfndsl/cfndsl/issues/315)
+- Merging cfnlego, cfn2dsl into cfndsl [\#272](https://github.com/cfndsl/cfndsl/issues/272)
 
 **Merged pull requests:**
 
@@ -459,7 +416,7 @@
 
 **Merged pull requests:**
 
-- Add Autoscaling NotificationConfiguration [\#275](https://github.com/cfndsl/cfndsl/pull/275) ([dbergamin](https://github.com/dbergamin))
+- Add Autoscaling NotificationConfiguration [\#275](https://github.com/cfndsl/cfndsl/pull/275) ([danielbergamin](https://github.com/danielbergamin))
 
 ## [v0.11.9](https://github.com/cfndsl/cfndsl/tree/v0.11.9) (2016-11-18)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.11.8...v0.11.9)
@@ -791,14 +748,14 @@
 **Fixed bugs:**
 
 - 5.0 release breaks addTag  [\#175](https://github.com/cfndsl/cfndsl/issues/175)
-- Remove erroneous logstream output [\#178](https://github.com/cfndsl/cfndsl/pull/178) ([stevenjack](https://github.com/stevenjack))
+- Remove erroneous logstream output [\#178](https://github.com/cfndsl/cfndsl/pull/178) ([cfndsl](https://github.com/cfndsl))
 
 ## [v0.5.1](https://github.com/cfndsl/cfndsl/tree/v0.5.1) (2016-04-15)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.5.0...v0.5.1)
 
 **Implemented enhancements:**
 
-- Fix Rake task for bumping version number [\#173](https://github.com/cfndsl/cfndsl/pull/173) ([stevenjack](https://github.com/stevenjack))
+- Fix Rake task for bumping version number [\#173](https://github.com/cfndsl/cfndsl/pull/173) ([cfndsl](https://github.com/cfndsl))
 
 **Fixed bugs:**
 
@@ -817,7 +774,7 @@
 - cfndsl\_examples [\#83](https://github.com/cfndsl/cfndsl/issues/83)
 - The Juno release of Openstack Heat has a whole new floatilla of resources [\#67](https://github.com/cfndsl/cfndsl/issues/67)
 - CLI Tests [\#169](https://github.com/cfndsl/cfndsl/pull/169) ([kornypoet](https://github.com/kornypoet))
-- Rubocop fixes [\#161](https://github.com/cfndsl/cfndsl/pull/161) ([stevenjack](https://github.com/stevenjack))
+- Rubocop fixes [\#161](https://github.com/cfndsl/cfndsl/pull/161) ([cfndsl](https://github.com/cfndsl))
 
 ## [v0.4.4](https://github.com/cfndsl/cfndsl/tree/v0.4.4) (2016-04-01)
 [Full Changelog](https://github.com/cfndsl/cfndsl/compare/v0.4.2...v0.4.4)
@@ -956,7 +913,7 @@
 
 **Implemented enhancements:**
 
-- Alert user if they've incorrectly capitialized the function name [\#84](https://github.com/cfndsl/cfndsl/pull/84) ([stevenjack](https://github.com/stevenjack))
+- Alert user if they've incorrectly capitialized the function name [\#84](https://github.com/cfndsl/cfndsl/pull/84) ([cfndsl](https://github.com/cfndsl))
 
 **Merged pull requests:**
 
@@ -1038,12 +995,12 @@
 
 **Merged pull requests:**
 
-- Change license to MIT and update gemfile [\#48](https://github.com/cfndsl/cfndsl/pull/48) ([stevenjack](https://github.com/stevenjack))
+- Change license to MIT and update gemfile [\#48](https://github.com/cfndsl/cfndsl/pull/48) ([cfndsl](https://github.com/cfndsl))
 
 ## [v0.1.0](https://github.com/cfndsl/cfndsl/tree/v0.1.0) (2014-05-13)
 **Implemented enhancements:**
 
-- Adds missing Pseudo Parameters [\#40](https://github.com/cfndsl/cfndsl/pull/40) ([stevenjack](https://github.com/stevenjack))
+- Adds missing Pseudo Parameters [\#40](https://github.com/cfndsl/cfndsl/pull/40) ([cfndsl](https://github.com/cfndsl))
 - ASG update policy [\#38](https://github.com/cfndsl/cfndsl/pull/38) ([k-ong](https://github.com/k-ong))
 - Added FnSelect function to JSONable.rb [\#36](https://github.com/cfndsl/cfndsl/pull/36) ([louism517](https://github.com/louism517))
 - Adding new properties to various resources [\#35](https://github.com/cfndsl/cfndsl/pull/35) ([ianneub](https://github.com/ianneub))
@@ -1067,12 +1024,12 @@
 
 **Merged pull requests:**
 
-- Updates test script to use correct load balancer names property [\#47](https://github.com/cfndsl/cfndsl/pull/47) ([stevenjack](https://github.com/stevenjack))
-- Adds bundler tasks to ease testing gem and releasing [\#46](https://github.com/cfndsl/cfndsl/pull/46) ([stevenjack](https://github.com/stevenjack))
-- Asg update policy [\#45](https://github.com/cfndsl/cfndsl/pull/45) ([stevenjack](https://github.com/stevenjack))
-- Add conditions [\#44](https://github.com/cfndsl/cfndsl/pull/44) ([stevenjack](https://github.com/stevenjack))
-- Don't exit - write error to STDERR [\#43](https://github.com/cfndsl/cfndsl/pull/43) ([stevenjack](https://github.com/stevenjack))
-- Travis integration [\#42](https://github.com/cfndsl/cfndsl/pull/42) ([stevenjack](https://github.com/stevenjack))
+- Updates test script to use correct load balancer names property [\#47](https://github.com/cfndsl/cfndsl/pull/47) ([cfndsl](https://github.com/cfndsl))
+- Adds bundler tasks to ease testing gem and releasing [\#46](https://github.com/cfndsl/cfndsl/pull/46) ([cfndsl](https://github.com/cfndsl))
+- Asg update policy [\#45](https://github.com/cfndsl/cfndsl/pull/45) ([cfndsl](https://github.com/cfndsl))
+- Add conditions [\#44](https://github.com/cfndsl/cfndsl/pull/44) ([cfndsl](https://github.com/cfndsl))
+- Don't exit - write error to STDERR [\#43](https://github.com/cfndsl/cfndsl/pull/43) ([cfndsl](https://github.com/cfndsl))
+- Travis integration [\#42](https://github.com/cfndsl/cfndsl/pull/42) ([cfndsl](https://github.com/cfndsl))
 - Corrected GetAtt typo. Edit doesn't appear to alter output. [\#31](https://github.com/cfndsl/cfndsl/pull/31) ([josh-wrale](https://github.com/josh-wrale))
 - Fixed incomplete 'GroupName' property for AWS::IAM::UserToGroupAddition [\#30](https://github.com/cfndsl/cfndsl/pull/30) ([josh-wrale](https://github.com/josh-wrale))
 - IAM Additions and Small Corrections and/or Improvements [\#28](https://github.com/cfndsl/cfndsl/pull/28) ([josh-wrale](https://github.com/josh-wrale))
@@ -1087,3 +1044,4 @@
 
 
 \* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+

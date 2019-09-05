@@ -4,43 +4,11 @@ require 'spec_helper'
 
 describe CfnDsl do
   let(:test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/test.rb" }
-  let(:heat_test_template_file_name) { "#{File.dirname(__FILE__)}/fixtures/heattest.rb" }
 
   after(:example) { CfnDsl::ExternalParameters.refresh! }
 
   it 'evaluates a cloud formation' do
     subject.eval_file_with_extras(test_template_file_name, [[:raw, 'test=123']])
-  end
-
-  it 'evaluates a heat' do
-    subject.eval_file_with_extras(heat_test_template_file_name)
-  end
-
-  context 'when binding is disabed' do
-    let(:param_value) { 'www.google.com?a=1&b=2' }
-    before do
-      CfnDsl.disable_binding
-    end
-
-    it 'evaluates parameters correctly when its value contains "="' do
-      template = subject.eval_file_with_extras(test_template_file_name, [[:raw, "three=#{param_value}"]]).to_json
-      parsed_template = JSON.parse(template)
-      expect(parsed_template['Parameters']['Three']['Default']).to eq param_value
-    end
-  end
-end
-
-describe CfnDsl::HeatTemplate do
-  it 'honors last-set value for non-array properties' do
-    spec = self
-    subject.declare do
-      Server('myserver') do
-        flavor 'foo'
-        flavor 'bar'
-        f = @Properties['flavor'].value
-        spec.expect(f).to spec.eq('bar')
-      end
-    end
   end
 end
 
@@ -96,7 +64,7 @@ describe CfnDsl::CloudFormationTemplate do
   end
 
   it 'singularizes indirectly' do
-    user = subject.User 'TestUser'
+    user = subject.IAM_User 'TestUser'
     policy = user.Policy 'stuff'
     expect(policy).to eq('stuff')
 
@@ -215,39 +183,6 @@ describe CfnDsl::CloudFormationTemplate do
 
       it 'raises an error if not given a second argument that is not a Hash' do
         expect { subject.FnSub('abc', 123) }.to raise_error(ArgumentError)
-      end
-    end
-
-    context 'FnFormat', 'String' do
-      it 'formats correctly' do
-        func = subject.FnFormat('abc%0def%1ghi%%x', 'A', 'B')
-        expect(func.to_json).to eq('{"Fn::Join":["",["abc","A","def","B","ghi","%","x"]]}')
-      end
-    end
-
-    context 'FnFormat', 'Hash' do
-      it 'formats correctly' do
-        func = subject.FnFormat('abc%{first}def%{second}ghi%%x', first: 'A', second: 'B')
-        expect(func.to_json).to eq('{"Fn::Join":["",["abc","A","def","B","ghi","%","x"]]}')
-      end
-    end
-
-    context 'FnFormat', 'Multiline' do
-      it 'formats correctly' do
-        multiline = <<-TEXT.gsub(/^ {10}/, '')
-          This is the first line
-          This is the %0 line
-          This is a %% sign
-        TEXT
-        func = subject.FnFormat(multiline, 'second')
-        expect(func.to_json).to eq('{"Fn::Join":["",["This is the first line\nThis is the ","second"," line\nThis is a ","%"," sign\n"]]}')
-      end
-    end
-
-    context 'FnFormat', 'Ref' do
-      it 'formats correctly' do
-        func = subject.FnFormat '123%{Test}456'
-        expect(func.to_json).to eq('{"Fn::Join":["",["123",{"Ref":"Test"},"456"]]}')
       end
     end
 

@@ -17,7 +17,4 @@ CfnDsl.specification_file File.expand_path('../lib/cfndsl/aws/resource_specifica
 require 'cfndsl'
 require 'cfnlego'
 
-bindir = File.expand_path('../bin', __dir__)
-ENV['PATH'] = [ENV['PATH'], bindir].join(':')
-
 Dir[File.expand_path('support/**/*.rb', __dir__)].each { |f| require f }

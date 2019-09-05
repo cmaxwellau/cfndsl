@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gemspec
 
+gem 'hana', '~> 1.3'
 gem 'json'
 
 group :development, :test do

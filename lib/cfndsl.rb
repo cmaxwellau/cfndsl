@@ -18,12 +18,12 @@ require 'cfndsl/resources'
 require 'cfndsl/rules'
 require 'cfndsl/parameters'
 require 'cfndsl/outputs'
-require 'cfndsl/patches'
 require 'cfndsl/specification'
 require 'cfndsl/aws/cloud_formation_template'
-require 'cfndsl/os/heat_template'
+require 'cfndsl/aws/cloud_formation'
 require 'cfndsl/external_parameters'
 require 'cfndsl/version'
+require 'cfndsl/runner'
 
 # CfnDsl
 module CfnDsl
@@ -58,7 +58,6 @@ module CfnDsl
   # Note that the order is important, as later extra sections can overwrite
   # or even undo things that were done by earlier sections.
 
-  # rubocop:disable all
   def self.eval_file_with_extras(filename, extras = [], logstream = nil)
     b = binding
     params = CfnDsl::ExternalParameters.refresh!
@@ -68,21 +67,8 @@ module CfnDsl
         klass_name = type.to_s.upcase
         logstream.puts("Loading #{klass_name} file #{file}") if logstream
         params.load_file file
-        params.add_to_binding(b, logstream) unless disable_binding?
-      when :ruby
-        if disable_binding?
-          logstream.puts("Interpreting Ruby files was disabled. #{file} will not be read") if logstream
-        else
-          logstream.puts("Running ruby file #{file}") if logstream
-          b.eval(File.read(file), file)
-        end
       when :raw
-        file_parts = file.split("=")
-        params.set_param(file_parts[0],file_parts[1..-1].join("="))
-        unless disable_binding?
-          logstream.puts("Running raw ruby code #{file}") if logstream
-          b.eval(file, 'raw code')
-        end
+        params.set_param(*file.split('='))
       end
     end
 
@@ -93,19 +79,6 @@ end
 
 def CloudFormation(&block)
   x = CfnDsl::CloudFormationTemplate.new
-  x.declare(&block)
-  invalid_references = x.check_refs
-  if invalid_references
-    abort invalid_references.join("\n")
-  elsif CfnDsl::Errors.errors?
-    abort CfnDsl::Errors.errors.join("\n")
-  else
-    return x
-  end
-end
-
-def Heat(&block)
-  x = CfnDsl::HeatTemplate.new
   x.declare(&block)
   invalid_references = x.check_refs
   if invalid_references
