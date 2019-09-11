@@ -11,7 +11,6 @@ describe CfnDsl do
     subject.eval_file_with_extras(test_template_file_name, [[:raw, 'test=123']])
   end
 
-
   context 'when binding is disabed' do
     let(:param_value) { 'www.google.com?a=1&b=2' }
     before do

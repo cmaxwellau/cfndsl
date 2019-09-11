@@ -14,8 +14,8 @@ end
 
 group :test do
   gem 'aruba'
+  gem 'hana'
   gem 'rake'
   gem 'rspec'
   gem 'simplecov'
-  gem 'hana'
 end

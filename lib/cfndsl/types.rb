@@ -151,6 +151,5 @@ module CfnDsl
     end
     # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
   end
-  
   # rubocop:enable Metrics/ModuleLength
 end

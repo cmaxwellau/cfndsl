@@ -9,7 +9,9 @@ describe CfnDsl::CloudFormationTemplate do
     it 'ensure nested arrays are not duplicated' do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
+          # rubocop:disable Style/WordArray
           SubnetId ['subnet-a', 'subnet-b']
+          # rubocop:enable Style/WordArray
         end
       end
 
@@ -32,8 +34,10 @@ describe CfnDsl::CloudFormationTemplate do
     it 'check multiple invocation with arrays works' do
       template.DirectoryService_SimpleAD(:Test) do
         VpcSettings do
+          # rubocop:disable Style/WordArray
           SubnetId ['subnet-a', 'subnet-b']
           SubnetId ['subnet-c', 'subnet-d']
+          # rubocop:enable Style/WordArray
         end
       end
 
